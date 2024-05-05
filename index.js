@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	let dPy = 5; // displacement for paddle in y-direction
 
 	document.addEventListener("keydown", (event) => {
+		event.preventDefault(); // prevents the execution of default event behaviour
+
 		if (event.keyCode == 38 && paddleY > 0) {
 			// up arrow key is pressed
 			console.log("up");
