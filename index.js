@@ -21,13 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
 		ball.style.left = `${ballX}px`;
 		ball.style.top = `${ballY}px`;
 
+		if (ballX < paddle.offsetLeft + paddle.offsetWidth && ballY > paddle.offsetTop && ballY - ball.offsetHeight < paddle.offsetTop + paddle.offsetHeight) {
+			dx *= -1;
+		}
+
 		if (ballX > table.offsetWidth - ball.offsetWidth || ballX <= 0) dx *= -1; // change x-direction
 		if (ballY > table.offsetHeight - ball.offsetHeight || ballY <= 0) dy *= -1; // change y-direction
 	}, 1);
 
 
 	let paddleY = 0;
-	let dPy = 5; // displacement for paddle in y-direction
+	let dPy = 10; // displacement for paddle in y-direction
 
 	document.addEventListener("keydown", (event) => {
 		event.preventDefault(); // prevents the execution of default event behaviour
@@ -35,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (event.keyCode == 38 && paddleY > 0) {
 			// up arrow key is pressed
 			console.log("up");
-			paddleY += (-1)*dPy;;
+			paddleY += (-1) * dPy;;
 		} else if (event.keyCode == 40 && paddleY < table.offsetHeight - paddle.offsetHeight) {
 			// down arrow key is pressed
 			console.log("down");
