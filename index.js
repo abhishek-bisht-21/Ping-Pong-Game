@@ -21,7 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
 		ball.style.left = `${ballX}px`;
 		ball.style.top = `${ballY}px`;
 
-		if (ballX < paddle.offsetLeft + paddle.offsetWidth && ballY > paddle.offsetTop && ballY - ball.offsetHeight < paddle.offsetTop + paddle.offsetHeight) {
+		/**
+		 * ballX < paddle.offsetLeft + paddle.offsetWidth -> if left(wrt table) of the ball < right(wrt table) of paddle
+		 * 
+		 * Next conditions are to check the ball should bounce back of the paddle only
+		 *
+		 * ballY > paddle.offsetTop -> if top(wrt table) of ball > topwrt table) of paddle 
+		 * ballY + ball.offsetHeight < paddle.offsetTop + paddle.offsetHeight
+		 * ballY + ball.offsetHeight -> bottom of the ball
+		 * paddle.offsetTop + paddle.offsetHeight -> bottom of the paddle
+		 */
+		if (ballX < paddle.offsetLeft + paddle.offsetWidth && ballY > paddle.offsetTop && ballY + ball.offsetHeight < paddle.offsetTop + paddle.offsetHeight) {
 			dx *= -1;
 		}
 
@@ -47,6 +57,18 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 
 		paddle.style.top = `${paddleY}px`;
+	});
+
+	document.addEventListener("mousemove", (event) => {
+		let mouseDistFromTop = event.clientY; // this is the distance of the mouse pointer from the top of the screen
+		let distOfTableFromTop = table.offsetTop;
+		let mousePointControl = mouseDistFromTop - distOfTableFromTop - paddle.offsetHeight/2;
+		
+		// if the bottom of the paddle touches bottom of table. Then return.
+		paddleY = mousePointControl;
+		if(paddleY <= 0 || paddleY > table.offsetHeight - paddle.offsetHeight) return;
+
+		paddle.style.top = `${mousePointControl}px`;
 	})
 
 })
